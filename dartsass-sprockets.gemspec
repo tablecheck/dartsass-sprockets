@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = SassC::Rails::VERSION
   spec.authors       = ["Ryan Boland", "Johnny Shields"]
   spec.email         = ["ryan@tanookilabs.com"]
-  spec.summary       = %q{Use Dart Sass with Sprockets and the Ruby on Rails asset pipeline.}
-  spec.description   = %q{Use Dart Sass with Sprockets and the Ruby on Rails asset pipeline.}
+  spec.summary       = 'Use Dart Sass with Sprockets and the Ruby on Rails asset pipeline.'
+  spec.description   = 'Use Dart Sass with Sprockets and the Ruby on Rails asset pipeline.'
   spec.homepage      = "https://github.com/sass/dartsass-sprockets"
   spec.license       = "MIT"
 
