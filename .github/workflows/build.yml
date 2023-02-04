@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        ruby-version: ['2.6', '2.7', '3.0', 'ruby', 'jruby']
+        ruby-version: ['2.7', '3.0', 'ruby', 'jruby']
         railties-version: ['6.1', '7.0']
         exclude:
           - os: windows-latest
@@ -60,7 +60,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        ruby-version: ['2.6', '2.7', '3.0', '3.1', 'jruby']
+        ruby-version: ['2.7', '3.0', '3.1', 'ruby', 'jruby']
         submodule:
           - vendor/github.com/sass/sassc-rails
           - vendor/github.com/twbs/bootstrap
