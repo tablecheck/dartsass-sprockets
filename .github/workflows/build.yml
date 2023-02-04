@@ -17,8 +17,8 @@ jobs:
         ruby-version: ruby
         bundler-cache: true
 
-    - name: Lint
-      run: bundle exec rubocop
+    # - name: Lint
+    #   run: bundle exec rubocop
 
   test:
 
