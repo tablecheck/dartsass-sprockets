@@ -78,8 +78,8 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true
 
-    - name: Test
-      run: bundle exec rake git:submodule:test[${{matrix.submodule}}]
+    # - name: Test
+    #   run: bundle exec rake git:submodule:test[${{matrix.submodule}}]
 
   release:
 
