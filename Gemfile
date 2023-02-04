@@ -1,8 +1,6 @@
 source 'https://rubygems.org'
 
-platforms :windows do
-  gem 'tzinfo-data'
-end
+gem "tzinfo-data"
 
 # for working locally
 # gem "sassc", :path => "../sassc"
