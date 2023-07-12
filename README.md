@@ -30,6 +30,7 @@ This will automatically configure your default Rails
 This gem is a drop-in replacement to [sass-rails](https://github.com/rails/sass-rails).
 Note the following differences:
 
+* This library does not apply SASS processing to `.css` files. Please make sure all your SASS files have file extension `.scss`.
 * `config.sass.style` values `:nested` and `:compact` will behave as `:expanded`. Use `:compressed` for minification.
 * `config.sass.line_comments` option is ignored and will always be disabled.
 
