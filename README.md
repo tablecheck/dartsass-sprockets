@@ -7,7 +7,7 @@ Use [Dart Sass](https://sass-lang.com/dart-sass) with Sprockets and the Ruby on 
 
 This gem is a fork of [sass/sassc-rails](https://github.com/sass/sassc-rails)
 which maintains API compatibility but delegates to the
-[dartsass-ruby](https://github.com/tablecheck/sass-embedded-host-ruby) gem
+[dartsass-ruby](https://github.com/tablecheck/dartsass-ruby) gem
 which uses Dart Sass instead of the libsass C implmentation.
 
 For ease of upgrading, the root namespace `::SassC` is still used by this gem,
