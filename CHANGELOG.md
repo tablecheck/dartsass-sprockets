@@ -1,3 +1,7 @@
+- **4.0.0**
+  - Change dependency from dartsass-ruby to sassc-embedded.
+  - Drop support for Ruby prior to 3.1.
+
 - **3.0.0**
   - [Release as dartsass-sprockets gem](https://github.com/tablecheck/dartsass-sprockets/pull/1)
 
