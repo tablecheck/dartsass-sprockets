@@ -11,7 +11,7 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby: ruby
+          ruby-version: ruby
           bundler-cache: true
           bundler: 2
       - name: Lint
@@ -33,7 +33,7 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby: ${{ matrix.ruby }}
+          ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
           bundler: 2
       - name: Test
@@ -57,7 +57,7 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby: ${{ matrix.ruby }}
+          ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
           bundler: 2
       - name: Test
