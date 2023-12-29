@@ -15,14 +15,14 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir['lib/**/*.rb'] + %w[LICENSE.txt README.md]
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
-  spec.required_ruby_version = '>= 2.6.0'
+  spec.required_ruby_version = '>= 3.1.0'
 
   spec.add_development_dependency 'pry'
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
   spec.add_development_dependency 'mocha'
 
-  spec.add_dependency "dartsass-ruby", "~> 3.0"
+  spec.add_dependency 'sassc-embedded', '~> 1.69'
   spec.add_dependency "tilt"
   spec.add_dependency 'railties', '>= 4.0.0'
   spec.add_dependency 'sprockets', '> 3.0'
