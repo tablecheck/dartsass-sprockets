@@ -2,7 +2,7 @@
 
 require_relative "rails/version"
 
-require "sassc-embedded"
+require "sassc"
 require_relative "rails/functions"
 require_relative "rails/importer"
 require_relative "rails/template"
