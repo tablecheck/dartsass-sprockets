@@ -1,4 +1,4 @@
-- **4.0.0**
+- **3.1.0**
   - Change dependency from dartsass-ruby to sassc-embedded.
   - Drop support for Ruby prior to 3.1.
   - Add Rubocop and fix all issues.
