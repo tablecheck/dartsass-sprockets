@@ -95,8 +95,8 @@ jobs:
           bundler-cache: true
           bundler: 2
       - name: Test
-        run:
-          - cd vendor/github.com/twbs/bootstrap
-          - bundle exec rake test
+        run: |
+          cd vendor/github.com/twbs/bootstrap
+          bundle exec rake test
         env:
           BUNDLE_GEMFILE: "${{matrix.gemfile}}"
