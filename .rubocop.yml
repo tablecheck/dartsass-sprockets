@@ -7,6 +7,12 @@ AllCops:
   Exclude:
     - vendor/**/*
 
+Layout/LineLength:
+  Max: 120
+
 Naming/FileName:
   Exclude:
     - 'lib/dartsass-sprockets.rb'
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
