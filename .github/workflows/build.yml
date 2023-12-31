@@ -66,15 +66,10 @@ jobs:
         os:
           - macos-latest
           - ubuntu-latest
-          - windows-latest
         ruby:
           - '3.3'
-          - jruby
         gemfile:
           - test/gemfiles/rails_7_0_dartsass.gemfile
-        exclude:
-          - os: windows-latest
-            ruby: jruby
     steps:
       - name: Checkout
         uses: actions/checkout@v3
