@@ -97,11 +97,16 @@ class SassRailsTest < MiniTest::Test
     assert_match %r{audio-url:\s*url\(/audios/rails.mp3\)}, css_output, 'audio-url:\s*url\(/audios/rails.mp3\)'
     assert_match %r{font-path:\s*"/fonts/rails.ttf"}, css_output, 'font-path:\s*"/fonts/rails.ttf"'
     assert_match %r{font-url:\s*url\(/fonts/rails.ttf\)}, css_output, 'font-url:\s*url\(/fonts/rails.ttf\)'
-    assert_match %r{font-url-with-query-hash:\s*url\(/fonts/rails.ttf\?#iefix\)}, css_output, 'font-url:\s*url\(/fonts/rails.ttf?#iefix\)'
-    assert_match %r{javascript-path:\s*"/javascripts/rails.js"}, css_output, 'javascript-path:\s*"/javascripts/rails.js"'
-    assert_match %r{javascript-url:\s*url\(/javascripts/rails.js\)}, css_output, 'javascript-url:\s*url\(/javascripts/rails.js\)'
-    assert_match %r{stylesheet-path:\s*"/stylesheets/rails.css"}, css_output, 'stylesheet-path:\s*"/stylesheets/rails.css"'
-    assert_match %r{stylesheet-url:\s*url\(/stylesheets/rails.css\)}, css_output, 'stylesheet-url:\s*url\(/stylesheets/rails.css\)'
+    assert_match %r{font-url-with-query-hash:\s*url\(/fonts/rails.ttf\?#iefix\)}, css_output,
+                 'font-url:\s*url\(/fonts/rails.ttf?#iefix\)'
+    assert_match %r{javascript-path:\s*"/javascripts/rails.js"}, css_output,
+                 'javascript-path:\s*"/javascripts/rails.js"'
+    assert_match %r{javascript-url:\s*url\(/javascripts/rails.js\)}, css_output,
+                 'javascript-url:\s*url\(/javascripts/rails.js\)'
+    assert_match %r{stylesheet-path:\s*"/stylesheets/rails.css"}, css_output,
+                 'stylesheet-path:\s*"/stylesheets/rails.css"'
+    assert_match %r{stylesheet-url:\s*url\(/stylesheets/rails.css\)}, css_output,
+                 'stylesheet-url:\s*url\(/stylesheets/rails.css\)'
 
     asset_data_url_regexp = /asset-data-url:\s*url\((.*?)\)/
     assert_match asset_data_url_regexp, css_output, 'asset-data-url:\s*url\((.*?)\)'
