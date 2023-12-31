@@ -8,44 +8,44 @@ module SassC
       class Extension
         attr_reader :postfix
 
-        def initialize(postfix=nil)
+        def initialize(postfix = nil)
           @postfix = postfix
         end
 
-        def import_for(full_path, parent_dir, options)
+        def import_for(full_path, _parent_dir, _options)
           SassC::Importer::Import.new(full_path)
         end
       end
 
       class CSSExtension
         def postfix
-          ".css"
+          '.css'
         end
 
-        def import_for(full_path, parent_dir, options)
-          import_path = full_path.gsub(/\.css$/,"")
+        def import_for(full_path, _parent_dir, _options)
+          import_path = full_path.gsub(/\.css$/, '')
           SassC::Importer::Import.new(import_path)
         end
       end
 
       class CssScssExtension < Extension
         def postfix
-          ".css.scss"
+          '.css.scss'
         end
 
-        def import_for(full_path, parent_dir, options)
-          source = File.open(full_path, 'rb') { |f| f.read }
+        def import_for(full_path, _parent_dir, _options)
+          source = File.binread(full_path)
           SassC::Importer::Import.new(full_path, source: source)
         end
       end
 
       class CssSassExtension < Extension
         def postfix
-          ".css.sass"
+          '.css.sass'
         end
 
-        def import_for(full_path, parent_dir, options)
-          sass = File.open(full_path, 'rb') { |f| f.read }
+        def import_for(full_path, _parent_dir, _options)
+          sass = File.binread(full_path)
           parsed_scss = SassC::Sass2Scss.convert(sass)
           SassC::Importer::Import.new(full_path, source: parsed_scss)
         end
@@ -53,10 +53,10 @@ module SassC
 
       class SassERBExtension < Extension
         def postfix
-          ".sass.erb"
+          '.sass.erb'
         end
 
-        def import_for(full_path, parent_dir, options)
+        def import_for(full_path, _parent_dir, options)
           template = Tilt::ERBTemplate.new(full_path)
           parsed_erb = template.render(options[:sprockets][:context], {})
           parsed_scss = SassC::Sass2Scss.convert(parsed_erb)
@@ -65,7 +65,7 @@ module SassC
       end
 
       class ERBExtension < Extension
-        def import_for(full_path, parent_dir, options)
+        def import_for(full_path, _parent_dir, options)
           template = Tilt::ERBTemplate.new(full_path)
           parsed_erb = template.render(options[:sprockets][:context], {})
           SassC::Importer::Import.new(full_path, source: parsed_erb)
@@ -76,29 +76,29 @@ module SassC
         CssScssExtension.new,
         CssSassExtension.new,
         SassERBExtension.new,
-        ERBExtension.new(".scss.erb"),
-        ERBExtension.new(".css.erb"),
-        Extension.new(".scss"),
-        Extension.new(".sass"),
+        ERBExtension.new('.scss.erb'),
+        ERBExtension.new('.css.erb'),
+        Extension.new('.scss'),
+        Extension.new('.sass'),
         CSSExtension.new
       ].freeze
 
-      PREFIXS = [ "", "_" ]
-      GLOB = /(\A|\/)(\*|\*\*\/\*)\z/
+      PREFIXS = ['', '_'].freeze
+      GLOB = %r{(\A|/)(\*|\*\*/\*)\z}.freeze
 
       def imports(path, parent_path)
-        parent_dir, _ = File.split(parent_path)
+        parent_dir, = File.split(parent_path)
         specified_dir, specified_file = File.split(path)
 
-        if m = path.match(GLOB)
-          path = path.sub(m[0], "")
+        if (m = path.match(GLOB))
+          path = path.sub(m[0], '')
           base = File.expand_path(path, File.dirname(parent_path))
           return glob_imports(base, m[2], parent_path)
         end
 
         search_paths = ([parent_dir] + load_paths).uniq
 
-        if specified_dir != "."
+        if specified_dir != '.'
           search_paths.map! do |path|
             File.join(path, specified_dir)
           end
@@ -157,10 +157,10 @@ module SassC
 
       def globbed_files(base, glob)
         # TODO: Raise an error from SassC here
-        raise ArgumentError unless glob == "*" || glob == "**/*"
+        raise ArgumentError unless ['*', '**/*'].include?(glob)
 
         extensions = EXTENSIONS.map(&:postfix)
-        exts = extensions.map { |ext| Regexp.escape("#{ext}") }.join("|")
+        exts = extensions.map { |ext| Regexp.escape(ext.to_s) }.join('|')
         sass_re = Regexp.compile("(#{exts})$")
 
         record_import_as_dependency(base)

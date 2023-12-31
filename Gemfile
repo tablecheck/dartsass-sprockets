@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 platforms :windows do
@@ -7,5 +9,8 @@ end
 # for working locally
 # gem "sassc", :path => "../sassc"
 
-# Specify your gem's dependencies in sassc-rails.gemspec
+gem 'mocha'
+gem 'rake'
+gem 'rubocop'
+
 gemspec

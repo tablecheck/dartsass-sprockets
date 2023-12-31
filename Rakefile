@@ -1,10 +1,12 @@
-require "bundler/gem_tasks"
+# frozen_string_literal: true
+
+require 'bundler/gem_tasks'
 
 task :test do
   $LOAD_PATH.unshift('lib', 'test')
-  Dir.glob('./test/**/*_test.rb') { |f| require f }
+  Dir.glob('./test/**/*_test.rb').sort.each { |f| require f }
 end
-task :default => [:test]
+task default: [:test]
 
 namespace :tests do
   gemfiles = %w[
@@ -24,7 +26,7 @@ namespace :tests do
     end
   end
 
-  desc "Run tests against all common asset pipeline setups"
+  desc 'Run tests against all common asset pipeline setups'
   task :all do
     gemfiles.each do |gemfile|
       Rake::Task["tests:#{gemfile}"].invoke
