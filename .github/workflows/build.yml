@@ -85,8 +85,6 @@ jobs:
           path: vendor/bootstrap
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
-        env:
-          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
         with:
           ruby-version: ${{matrix.ruby}}
           bundler-cache: true
@@ -96,6 +94,6 @@ jobs:
           gem build dartsass-sprockets.gemspec
           gem install dartsass-sprockets-*.gem
           cd vendor/bootstrap
-          bundle exec rake test
-        env:
-          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
+          bundle config local.dartsass-sprockets ${{github.workspace}}
+          BUNDLE_GEMFILE=${{matrix.gemfile}} bundle install --jobs 4 --retry 3
+          BUNDLE_GEMFILE=${{matrix.gemfile}} bundle exec rake test
