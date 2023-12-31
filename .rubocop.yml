@@ -16,6 +16,9 @@ Metrics:
   Exclude:
     - test/**/*
 
+Naming/BlockForwarding:
+  Enabled: false
+
 Naming/FileName:
   Exclude:
     - 'lib/dartsass-sprockets.rb'

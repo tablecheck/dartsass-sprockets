@@ -7,7 +7,7 @@ require 'sprockets/utils'
 module SassC
   module Rails
     class SassTemplate < Sprockets::SassProcessor
-      def initialize(options = {}, &) # rubocop:disable Lint/MissingSuper
+      def initialize(options = {}, &block) # rubocop:disable Lint/MissingSuper
         @cache_version = options[:cache_version]
         @cache_key = "#{self.class.name}:#{VERSION}:#{SassC::VERSION}:#{@cache_version}"
         # @importer_class = options[:importer] || Sass::Importers::Filesystem
@@ -15,7 +15,7 @@ module SassC
         @functions = Module.new do
           include Functions
           include options[:functions] if options[:functions]
-          class_eval(&) if block_given?
+          class_eval(&block) if block_given?
         end
       end
 
