@@ -48,7 +48,7 @@ module SassC
         opts = { style: sass_style, load_paths: load_paths }
 
 
-        if Rails.application.config.sass.inline_source_maps
+        if ::Rails.application.config.sass.inline_source_maps
           opts.merge!({
                         source_map_file: '.',
                         source_map_embed: true,
@@ -60,15 +60,15 @@ module SassC
       end
 
       def sass_style
-        (Rails.application.config.sass.style || :expanded).to_sym
+        (::Rails.application.config.sass.style || :expanded).to_sym
       end
 
       def load_paths
-        Rails.application.config.sass.load_paths || []
+        ::Rails.application.config.sass.load_paths || []
       end
 
       def line_comments?
-        Rails.application.config.sass.line_comments
+        ::Rails.application.config.sass.line_comments
       end
 
       def safe_merge(_key, left, right)

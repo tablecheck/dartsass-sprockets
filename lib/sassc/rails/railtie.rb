@@ -11,11 +11,12 @@ module SassC
       # Establish static configuration defaults
       # Emit scss files during stylesheet generation of scaffold
       config.sass.preferred_syntax = :scss
+
       # Initialize the load paths to an empty array
-      config.sass.load_paths       = []
+      config.sass.load_paths = []
 
       # Display line comments above each selector as a debugging aid
-      config.sass.line_comments    = true
+      config.sass.line_comments = true
 
       # Set the default stylesheet engine
       # It can be overridden by passing:
@@ -71,7 +72,7 @@ module SassC
       end
 
       initializer :setup_compression, group: :all do |app|
-        if Rails.env.development?
+        if ::Rails.env.development?
           # Use expanded output instead of the sass default of :nested unless specified
           app.config.sass.style ||= :expanded
         else

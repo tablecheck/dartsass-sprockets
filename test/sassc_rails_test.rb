@@ -2,13 +2,11 @@
 
 require_relative 'test_helper'
 
-class SassRailsTest < MiniTest::Test
+class SassRailsTest < Minitest::Test
   attr_reader :app
 
   def setup
-    Rails.application = nil
-
-    @app = Class.new(Rails::Application)
+    @app = Class.new(Rails::Application).new
     @app.config.active_support.deprecation = :log
     @app.config.eager_load = false
     @app.config.root = File.join(File.dirname(__FILE__), 'dummy')
@@ -18,15 +16,16 @@ class SassRailsTest < MiniTest::Test
     @app.config.assets.delete(:css_compressor)
     @app.config.sass = ActiveSupport::OrderedOptions.new
     @app.config.sass.preferred_syntax = :scss
-    @app.config.sass.load_paths       = []
+    @app.config.sass.load_paths = []
 
     # Not actually a default, but it makes assertions more complicated
-    @app.config.sass.line_comments    = false
+    @app.config.sass.line_comments = false
 
     # Add a fake compressor for testing purposes
     Sprockets.register_compressor 'text/css', :test, TestCompressor
 
-    Rails.backtrace_cleaner.remove_silencers!
+    ::Rails.application = @app
+    ::Rails.backtrace_cleaner.remove_silencers!
   end
 
   def teardown
