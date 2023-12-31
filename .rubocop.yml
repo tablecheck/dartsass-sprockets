@@ -1,44 +1,12 @@
-#inherit_from: .rubocop_todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
   NewCops: enable
   SuggestExtensions: false
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.1
   Exclude:
-    - spec/**/*
     - vendor/**/*
 
-#Bundler/DuplicatedGem:
-#  Exclude:
-#    - 'Gemfile'
-#
-#Gemspec/RequiredRubyVersion:
-#  Enabled: false
-#
-#Layout/EmptyLineAfterGuardClause:
-#  Enabled: false
-#
-#Layout/IndentationWidth:
-#  AllowedPatterns:
-#    - '^\s*module'
-#
-#Layout/LineLength:
-#  Max: 120
-#
-#Layout/SpaceInsideBlockBraces:
-#  SpaceBeforeBlockParameters: false
-#
-#Style/Documentation:
-#  Enabled: false
-#
-#Style/DocumentDynamicEvalDefinition:
-#  Enabled: false
-#
-#Style/DoubleNegation:
-#  Enabled: false
-#
-#Style/OptionalBooleanParameter:
-#  Enabled: false
-#
-#Style/RaiseArgs:
-#  EnforcedStyle: compact
+Naming/FileName:
+  Exclude:
+    - 'lib/dartsass-sprockets.rb'

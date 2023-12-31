@@ -84,7 +84,7 @@ module SassC
       ].freeze
 
       PREFIXS = ['', '_'].freeze
-      GLOB = %r{(\A|/)(\*|\*\*/\*)\z}.freeze
+      GLOB = %r{(\A|/)(\*|\*\*/\*)\z}
 
       def imports(path, parent_path)
         parent_dir, = File.split(parent_path)
@@ -165,7 +165,7 @@ module SassC
 
         record_import_as_dependency(base)
 
-        files = Dir["#{base}/#{glob}"].sort.map do |path|
+        files = Dir["#{base}/#{glob}"].map do |path|
           if File.directory?(path)
             record_import_as_dependency(path)
             nil
