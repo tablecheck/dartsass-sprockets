@@ -25,6 +25,14 @@ gem 'dartsass-sprockets'
 This will automatically configure your default Rails
 `config.assets.css_compressor` to use `:sass`.
 
+### Version Support
+
+The current version of `dartsass-sprockets` supports:
+- Ruby 3.1+
+- Rails 6.1+
+
+For older versions of Ruby and Rails may be supported with earlier versions of this gem.
+
 ### Upgrading to Dart Sass
 
 This gem is a drop-in replacement to [sass-rails](https://github.com/rails/sass-rails).

@@ -34,12 +34,9 @@ jobs:
           - jruby
           - truffleruby
         gemfile:
-          - Gemfile
           - gemfiles/rails_6_1.gemfile
           - gemfiles/rails_7_0.gemfile
           - gemfiles/rails_7_1.gemfile
-        submodule:
-          - vendor/github.com/twbs/bootstrap
         exclude:
           - os: windows-latest
             ruby: jruby
