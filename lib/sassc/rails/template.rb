@@ -48,11 +48,9 @@ module SassC
         opts = { style: sass_style, load_paths: load_paths }
 
         if ::Rails.application.config.sass.inline_source_maps
-          opts.merge!({
-                        source_map_file: '.',
-                        source_map_embed: true,
-                        source_map_contents: true
-                      })
+          opts.merge!(source_map_file: '.',
+                      source_map_embed: true,
+                      source_map_contents: true)
         end
 
         opts
