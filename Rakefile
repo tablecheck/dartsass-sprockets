@@ -9,14 +9,7 @@ end
 task default: [:test]
 
 namespace :tests do
-  gemfiles = %w[
-    sprockets-rails_3_0
-    sprockets-rails_2_3
-    sprockets_3_0
-    sprockets_4_0
-    rails_4_2
-    rails_5_2
-  ]
+  gemfiles = Dir['gemfiles/*.gemfile'].map { |f| File.basename(f, '.gemfile') }.freeze
 
   gemfiles.each do |gemfile|
     desc "Run tests against #{gemfile}"

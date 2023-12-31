@@ -44,8 +44,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        ruby: ['3.1', '3.2', '3.3', 'ruby', 'jruby']
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        ruby:
+          - '3.1'
+          - '3.2'
+          - '3.3'
+          - 'ruby'
+          - 'jruby'
+          - 'truffleruby'
+        gemfile:
+          - Gemfile
+          - gemfiles/rails_6_1.gemfile
+          - gemfiles/rails_7_0.gemfile
+          - gemfiles/rails_7_1.gemfile
         submodule:
           - vendor/github.com/twbs/bootstrap
         exclude:
@@ -54,11 +68,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        env:
+          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
+        env:
+          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
           bundler: 2
       - name: Test
         run: bundle exec rake git:submodule:test[${{matrix.submodule}}]
+        env:
+          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
