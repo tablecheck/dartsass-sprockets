@@ -45,8 +45,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        env:
-          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         env:
@@ -80,14 +78,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install current gem
-        run: |
-          gem build dartsass-sprockets.gemspec
-          gem install dartsass-sprockets-*.gem
       - name: Checkout
         uses: actions/checkout@v3
-        env:
-          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
         with:
           repository: twbs/bootstrap-rubygem
           path: vendor/bootstrap
@@ -101,6 +93,8 @@ jobs:
           bundler: 2
       - name: Test
         run: |
+          gem build dartsass-sprockets.gemspec
+          gem install dartsass-sprockets-*.gem
           cd vendor/bootstrap
           bundle exec rake test
         env:
