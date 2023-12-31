@@ -1,0 +1,27 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 3.1
+  Exclude:
+    - vendor/**/*
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - test/**/*
+
+Metrics:
+  Exclude:
+    - test/**/*
+
+Naming/BlockForwarding:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'lib/dartsass-sprockets.rb'
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never

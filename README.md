@@ -7,7 +7,7 @@ Use [Dart Sass](https://sass-lang.com/dart-sass) with Sprockets and the Ruby on 
 
 This gem is a fork of [sass/sassc-rails](https://github.com/sass/sassc-rails)
 which maintains API compatibility but delegates to the
-[dartsass-ruby](https://github.com/tablecheck/dartsass-ruby) gem
+[sass-embedded](https://github.com/sass-contrib/sass-embedded-host-ruby) gem
 which uses Dart Sass instead of the libsass C implmentation.
 
 For ease of upgrading, the root namespace `::SassC` is still used by this gem,
@@ -24,6 +24,14 @@ gem 'dartsass-sprockets'
 
 This will automatically configure your default Rails
 `config.assets.css_compressor` to use `:sass`.
+
+### Version Support
+
+The current version of `dartsass-sprockets` supports:
+- Ruby 3.1+
+- Rails 6.1+
+
+For older versions of Ruby and Rails may be supported with earlier versions of this gem.
 
 ### Upgrading to Dart Sass
 
@@ -59,10 +67,11 @@ Note these source maps are *inline* and will be appended to the compiled
 ## Credits
 
 * This gem is maintained and used in production by [TableCheck](https://www.tablecheck.com/en/join). (We'd be very glad if the Sass organization could take over maintainership in the future!)
+* Thank you to [Natsuki](https://ntk.me) for the [sass-embedded](https://github.com/sass-contrib/sass-embedded-host-ruby) gem.
 * Credit to [Ryan Boland](https://ryanboland.com) and the authors of the original
   [sass/sassc-rails](https://github.com/sass/sassc-rails) and
   [sass-rails](https://github.com/rails/sass-rails) gems.
-* See our [awesome contributors](https://github.com/tablecheck/sassc-ruby/graphs/contributors).
+* See our [awesome contributors](https://github.com/tablecheck/dartsass-sprockets/graphs/contributors).
 
 ### Contributing
 

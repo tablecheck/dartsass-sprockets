@@ -1,9 +1,13 @@
-require "rails/generators/sass_scaffold"
+# frozen_string_literal: true
+
+require 'rails/generators/sass_scaffold'
 
 module Sass
   module Generators
     class ScaffoldGenerator < ::Sass::Generators::ScaffoldBase
-      def syntax() :sass end
+      def syntax
+        :sass
+      end
     end
   end
 end

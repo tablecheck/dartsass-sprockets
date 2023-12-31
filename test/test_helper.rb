@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
-ENV["RAILS_ENV"] = "test"
+ENV['RAILS_ENV'] = 'test'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'dartsass-sprockets'
-require "pry"
-require "fileutils"
+require 'fileutils'
 require 'rails'
 require 'bundler/setup'
-require "minitest/autorun"
+require 'minitest/autorun'
 require 'mocha/minitest'
 
 Bundler.require
