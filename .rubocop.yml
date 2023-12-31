@@ -9,6 +9,12 @@ AllCops:
 
 Layout/LineLength:
   Max: 120
+  Exclude:
+    - test/**/*
+
+Metrics:
+  Exclude:
+    - test/**/*
 
 Naming/FileName:
   Exclude:

@@ -81,10 +81,14 @@ class SassRailsTest < Minitest::Test
 
     css_output = render_asset('helpers_test.css')
 
-    assert_match %r{asset-path:\s*"/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png"}, css_output, 'asset-path:\s*"/assets/rails.png"'
-    assert_match %r{asset-url:\s*url\(/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png\)}, css_output, 'asset-url:\s*url\(/assets/rails.png\)'
-    assert_match %r{image-path:\s*"/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png"}, css_output, 'image-path:\s*"/assets/rails.png"'
-    assert_match %r{image-url:\s*url\(/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png\)}, css_output, 'image-url:\s*url\(/assets/rails.png\)'
+    assert_match %r{asset-path:\s*"/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png"},
+                 css_output, 'asset-path:\s*"/assets/rails.png"'
+    assert_match %r{asset-url:\s*url\(/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png\)},
+                 css_output, 'asset-url:\s*url\(/assets/rails.png\)'
+    assert_match %r{image-path:\s*"/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png"},
+                 css_output, 'image-path:\s*"/assets/rails.png"'
+    assert_match %r{image-url:\s*url\(/assets/rails-322506f9917889126e81df2833a6eecdf2e394658d53dad347e9882dd4dbf28e\.png\)},
+                 css_output, 'image-url:\s*url\(/assets/rails.png\)'
   end
 
   def test_sass_asset_paths_work
