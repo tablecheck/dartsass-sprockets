@@ -3,7 +3,7 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  lint:
+  rubocop:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,11 +14,11 @@ jobs:
           ruby-version: ruby
           bundler-cache: true
           bundler: 2
-      - name: Lint
+      - name: Rubocop
         run: bundle exec rubocop
 
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
       matrix:
@@ -45,14 +45,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        env:
-          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         env:
           BUNDLE_GEMFILE: "${{matrix.gemfile}}"
         with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: ${{matrix.ruby}}
           bundler-cache: true
           bundler: 2
       - name: Test
@@ -60,39 +58,37 @@ jobs:
         env:
           BUNDLE_GEMFILE: "${{matrix.gemfile}}"
 
-#  test-vendor:
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        os:
-#          - macos-latest
-#          - ubuntu-latest
-#          - windows-latest
-#        ruby:
-#          - '3.3'
-#          - jruby
-#        gemfile:
-#          - Gemfile
-#        submodule:
-#          - vendor/github.com/twbs/bootstrap
-#        exclude:
-#          - os: windows-latest
-#            ruby: jruby
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#        env:
-#          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
-#      - name: Setup ruby
-#        uses: ruby/setup-ruby@v1
-#        env:
-#          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
-#        with:
-#          ruby-version: ${{ matrix.ruby }}
-#          bundler-cache: true
-#          bundler: 2
-#      - name: Test
-#        run: bundle exec rake git:submodule:test[${{matrix.submodule}}]
-#        env:
-#          BUNDLE_GEMFILE: "${{matrix.gemfile}}"
+  test-vendor:
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+        ruby:
+          - '3.3'
+        gemfile:
+          - test/gemfiles/rails_7_0_dartsass.gemfile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: twbs/bootstrap-rubygem
+          path: vendor/bootstrap
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{matrix.ruby}}
+          bundler-cache: true
+          bundler: 2
+      - name: Test
+        run: |
+          gem build dartsass-sprockets.gemspec
+          gem install dartsass-sprockets-*.gem
+          cd vendor/bootstrap
+          bundle config local.dartsass-sprockets ${{github.workspace}}
+          BUNDLE_GEMFILE=${{matrix.gemfile}} bundle install --jobs 4 --retry 3
+          BUNDLE_GEMFILE=${{matrix.gemfile}} bundle exec rake test
