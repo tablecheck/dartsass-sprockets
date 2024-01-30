@@ -9,10 +9,11 @@ module SassC
     class SassTemplate < Sprockets::SassProcessor
       def initialize(options = {}, &block) # rubocop:disable Lint/MissingSuper
         @cache_version = options[:cache_version]
-        @cache_key = "#{self.class.name}:#{VERSION}:#{SassC::VERSION}:#{@cache_version}"
-        # @importer_class = options[:importer] || Sass::Importers::Filesystem
+        @cache_key = "#{self.class.name}:#{VERSION}:#{::SassC::VERSION}:#{@cache_version}"
+        @importer_class = options[:importer] || ::SassC::Rails::Importer
         @sass_config = options[:sass_config] || {}
         @functions = Module.new do
+          include ::SassC::Script::Functions
           include Functions
           include options[:functions] if options[:functions]
           class_eval(&block) if block_given?
@@ -27,7 +28,8 @@ module SassC
           line_comments: line_comments?,
           syntax: self.class.syntax,
           load_paths: input[:environment].paths,
-          importer: SassC::Rails::Importer,
+          functions: @functions,
+          importer: @importer_class,
           sprockets: {
             context: context,
             environment: input[:environment],
@@ -37,9 +39,7 @@ module SassC
 
         engine = ::SassC::Engine.new(input[:data], options)
 
-        css = Sprockets::Utils.module_include(::SassC::Script::Functions, @functions) do
-          engine.render
-        end
+        css = engine.render
 
         context.metadata.merge(data: css)
       end
