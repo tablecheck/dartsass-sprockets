@@ -30,6 +30,7 @@ module SassC
           load_paths: input[:environment].paths,
           functions: @functions,
           importer: @importer_class,
+          quiet_deps: ::Rails.application.config.sass.quiet_deps,
           sprockets: {
             context: context,
             environment: input[:environment],
