@@ -18,6 +18,9 @@ module SassC
       # Display line comments above each selector as a debugging aid
       config.sass.line_comments = true
 
+      # Silence deprecation warnings during compilation that come from dependencies
+      config.sass.quiet_deps = false
+
       # Set the default stylesheet engine
       # It can be overridden by passing:
       #     --stylesheet_engine=sass

@@ -58,6 +58,15 @@ After adding this config line, you may need to clear your assets cache
 Note these source maps are *inline* and will be appended to the compiled
 `application.css` file. (They will *not* generate additional files.)
 
+## Silencing Deprecation Warnings That Come From Dependencies
+
+To silence deprecation warnings during compilation that come from dependencies, add the following configuration to your `application.rb` file:
+
+```ruby
+# config/environments/development.rb
+config.sass.quiet_deps = true
+```
+
 ## Alternatives
 
 * [dartsass-rails](https://github.com/rails/dartsass-rails): The Rails organization
