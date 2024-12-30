@@ -1,0 +1,7 @@
+@use "partials/scss_use";
+
+.main {
+  color: yellow;
+  @include scss_use.background-from-partial(red);
+}
+

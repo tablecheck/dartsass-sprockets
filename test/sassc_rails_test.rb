@@ -159,6 +159,34 @@ class SassRailsTest < Minitest::Test
     assert_match(/partial_in_load_paths/,    css_output)
   end
 
+  def test_sass_uses_work_correctly
+    app.config.sass.load_paths << Rails.root.join('app/assets/stylesheets/in_load_paths')
+    initialize!
+
+    css_output = render_asset('uses_test.css')
+    assert_match(/main/,                     css_output)
+    assert_match(/background-color:red/,     css_output)
+    assert_match(/partial-scss/,             css_output)
+    assert_match(/sub-folder-relative-sass/, css_output)
+    assert_match(/not-a-partial/,            css_output)
+
+    # mutate nested dependency
+    path = Rails.root.join('app/assets/stylesheets/partials/subfolder/_relative_sass.sass')
+    File.open(path, "a") do |file|
+      file.puts <<~SASS
+
+        .sub-folder-dependency-modified
+          width: 10px
+      SASS
+    end
+
+    css_output = render_asset('uses_test.css')
+    assert_match(/sub-folder-dependency-modified/,   css_output)
+  ensure
+    # unmutate
+    system "git checkout #{path}"
+  end
+
   def test_style_config_item_is_defaulted_to_expanded_in_development_mode
     initialize_dev!
     assert_equal :expanded, Rails.application.config.sass.style
