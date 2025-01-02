@@ -48,7 +48,7 @@ jobs:
             ruby: '3.4'
           - gemfile: gemfiles/rails_6_1.gemfile
             ruby: ruby
-          - gemfile: gemfiles/rails_6_1.gemfile
+          - gemfile: gemfiles/rails_7_0.gemfile
             ruby: '3.4'
           - gemfile: gemfiles/rails_7_0.gemfile
             ruby: ruby
@@ -56,6 +56,8 @@ jobs:
             ruby: truffleruby
           - gemfile: gemfiles/rails_8_0.gemfile
             ruby: '3.1'
+          - gemfile: gemfiles/rails_8_0.gemfile
+            ruby: jruby
           - gemfile: gemfiles/rails_8_0.gemfile
             ruby: truffleruby
     steps:
