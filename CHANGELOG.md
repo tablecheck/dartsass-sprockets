@@ -1,3 +1,16 @@
+- **3.2.0**
+  - Bump sassc-embedded dependency to 1.80.1.
+  - Allow pass-thru of all sass-embedded options.
+  - @ntkme - [Fix custom importer and avoid mutex lock for custom functions](https://github.com/tablecheck/dartsass-sprockets/pull/22)
+  - @botandrose - [Restore import tracking from Sprockets::SassProcessor so that edits to secondary imports are tracked](https://github.com/tablecheck/dartsass-sprockets/pull/29)
+  - @jukra - [Alter the config to pass a --quiet-deps flag](https://github.com/tablecheck/dartsass-sprockets/pull/27)
+  - Remove config.sass.line_comments.
+  - Remove Sprockets 2.x related code.
+  - Add Ruby 3.4 to Github CI tests.
+  - Add Rails 8.0 to Github CI tests.
+  - Silence @import deprecation in tests.
+  - Fix broken tests.
+
 - **3.1.0**
   - Change dependency from dartsass-ruby to sassc-embedded.
   - Drop support for Ruby prior to 3.1.

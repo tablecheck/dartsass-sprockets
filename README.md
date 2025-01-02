@@ -33,7 +33,72 @@ The current version of `dartsass-sprockets` supports:
 
 For older versions of Ruby and Rails may be supported with earlier versions of this gem.
 
-### Upgrading to Dart Sass
+## CSS Minification (Production)
+
+This gem uses a Railtie to automatically set the following
+configuration in all environments *except* Development:
+
+```ruby
+# set automatically by this gem
+config.assets.css_compressor = :sass
+```
+
+This causes Sprockets to minify *all* CSS assets (both Sass and plain CSS) using Dart Sass.
+This minification is done as a *second-pass* after compiling the Sass to CSS,
+and is done irrespective of whether the `config.sass.style` option is set to `:compressed`.
+To disable this behavior, set `config.assets.css_compressor = false`.
+
+## Source Maps (Development)
+
+To turn on inline source maps, add the following configuration
+to your `config/environments/development.rb` file:
+
+```ruby
+# in config/environments/development.rb
+config.sass.inline_source_maps = true
+```
+
+Note these source maps appended *inline* to the compiled `application.css` file.
+(This option will *not* generate additional files.)
+
+## Silencing Deprecation Warnings
+
+To silence common deprecation warnings, add the following
+configuration. Refer to details in the below section.
+
+```ruby
+# in config/application.rb
+config.sass.quiet_deps = true
+config.sass.silence_deprecations = ['import']
+```
+
+## Advanced Configuration
+
+The following options are exposed via `Rails.application.config.sass.{option}`.
+Options denoted with * are handed by the sass-embedded gem and passed into Dart Sass;
+refer to [the sass-embedded documentation](https://rubydoc.info/gems/sass-embedded/Sass)
+and the [Dart Sass documentation](https://sass-lang.com/documentation/js-api/interfaces/options/).
+
+| Option                  | Type            | Description                                                                                                                   |
+|-------------------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `load_paths`            | `Array<String>` | Additional paths to look for imported files.                                                                                  |
+| `inline_source_maps`    | `Boolean`       | If `true`, will append source maps inline to the generated CSS file. Refer to section below.                                  |
+| `style`*                | `Symbol`        | `:expanded` (default) or `:compressed`. See note about CSS Minification below.                                                |
+| `charset`*              | `Boolean`       | Whether to include a @charset declaration or byte-order mark in the CSS output (default `true`).                              |
+| `logger`*               | `Object`        | An object to use to handle warnings and/or debug messages from Sass.                                                          |
+| `alert_ascii`*          | `Boolean`       | If `true`, Dart Sass will exclusively use ASCII characters in its error and warning messages (default `false`).               |
+| `alert_color`*          | `Boolean`       | If `true`, Dart Sass will use ANSI color escape codes in its error and warning messages (default `false`).                    |
+| `verbose`*              | `Boolean`       | By default (`false`) Dart Sass logs up to five occurrences of each deprecation warning. Setting to `true` removes this limit. |
+| `quiet_deps`*           | `Boolean`       | If `true`, Dart Sass won’t print warnings that are caused by dependencies (default `false`).                                  |
+| `silence_deprecations`* | `Array<String>` | An array of active deprecations to ignore. Refer to (deprecations)[dartsass-deprecations].                                    |
+| `fatal_deprecations`*   | `Array<String>` | An array of deprecations to treat as fatal. Refer to (deprecations)[dartsass-deprecations].                                   |
+| `future_deprecations`*  | `Array<String>` | An array of future deprecations to opt-into early. Refer to (deprecations)[dartsass-deprecations].                            |
+| `importers`*            | `Array<Object>` | Custom importers to use when resolving `@import` directives.                                                                  |
+
+When changing config options in Development environment, you may need to clear
+your assets cache (`rm -r tmp/cache/assets`) and restart your Rails server.
+
+### Upgrading from Legacy Sass Rails
 
 This gem is a drop-in replacement to [sass-rails](https://github.com/rails/sass-rails).
 Note the following differences:
@@ -41,31 +106,6 @@ Note the following differences:
 * This library does not apply SASS processing to `.css` files. Please ensure all your SASS files have file extension `.scss`.
 * `config.sass.style` values `:nested` and `:compact` will behave as `:expanded`. Use `:compressed` for minification.
 * `config.sass.line_comments` option is ignored and will always be disabled.
-
-## Inline Source Maps
-
-To turn on inline source maps, add the following configuration
-to your `development.rb` file:
-
-```ruby
-# config/environments/development.rb
-config.sass.inline_source_maps = true
-```
-
-After adding this config line, you may need to clear your assets cache
-(`rm -r tmp/cache/assets`), stop Spring, and restart your Rails server.
-
-Note these source maps are *inline* and will be appended to the compiled
-`application.css` file. (They will *not* generate additional files.)
-
-## Silencing Deprecation Warnings That Come From Dependencies
-
-To silence deprecation warnings during compilation that come from dependencies, add the following configuration to your `application.rb` file:
-
-```ruby
-# config/environments/development.rb
-config.sass.quiet_deps = true
-```
 
 ## Alternatives
 
@@ -89,3 +129,5 @@ config.sass.quiet_deps = true
 3. Commit your changes (`git commit -am 'Add some feature'`) - try to include tests
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+[dartsass-deprecations]: https://github.com/sass/sass/blob/40c50cb/js-api-doc/deprecations.d.ts#L260

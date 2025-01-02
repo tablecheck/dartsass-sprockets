@@ -15,9 +15,6 @@ module SassC
       # Initialize the load paths to an empty array
       config.sass.load_paths = []
 
-      # Display line comments above each selector as a debugging aid
-      config.sass.line_comments = true
-
       # Silence deprecation warnings during compilation that come from dependencies
       config.sass.quiet_deps = false
 
@@ -75,11 +72,8 @@ module SassC
       end
 
       initializer :setup_compression, group: :all do |app|
-        if ::Rails.env.development?
-          # Use expanded output instead of the sass default of :nested unless specified
-          app.config.sass.style ||= :expanded
-        else
-          app.config.assets.css_compressor = :sass unless app.config.assets.key?(:css_compressor)
+        unless ::Rails.env.development?
+          app.config.assets.css_compressor = :sass unless app.config.assets.key?(:css_compressor) # rubocop:disable Style/SoleNestedConditional
         end
       end
     end

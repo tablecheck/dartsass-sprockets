@@ -23,5 +23,8 @@ Naming/FileName:
   Exclude:
     - 'lib/dartsass-sprockets.rb'
 
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
