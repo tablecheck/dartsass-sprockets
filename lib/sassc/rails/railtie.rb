@@ -76,7 +76,7 @@ module SassC
           # TODO: Change this in version 4
           # app.config.sass.style = :compressed unless app.config.sass.key?(:style)
           # app.config.assets.css_compressor = :scss unless app.config.assets.key?(:css_compressor)
-          app.config.assets.css_compressor = :sass unless app.config.assets.key?(:css_compressor)
+          app.config.assets.css_compressor = :sass unless app.config.assets.key?(:css_compressor) # rubocop:disable Style/SoleNestedConditional
         end
       end
     end
