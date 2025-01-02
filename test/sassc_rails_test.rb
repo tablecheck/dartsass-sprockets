@@ -333,12 +333,15 @@ class SassRailsTest < Minitest::Test
     assert_match(/new-file-test/, css_output)
     refute_match(/changed-file-test/, css_output)
 
-    File.open(new_file, 'w') do |file|
+    File.open(new_file, 'a') do |file|
       file.puts '.changed-file-test { color: #000; }'
     end
 
+    # Must clear the cache if the file is modified
+    Rails.application.assets.cache.clear
+
     new_css_output = render_asset('glob_test.css')
-    assert_match(/new-file-test/, css_output)
+    assert_match(/new-file-test/, new_css_output)
     assert_match(/changed-file-test/, new_css_output)
     refute_equal css_output, new_css_output
   ensure
