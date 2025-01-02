@@ -53,6 +53,8 @@ jobs:
           - gemfile: gemfiles/rails_7_0.gemfile
             ruby: ruby
           - gemfile: gemfiles/rails_7_1.gemfile
+            ruby: jruby
+          - gemfile: gemfiles/rails_7_1.gemfile
             ruby: truffleruby
           - gemfile: gemfiles/rails_8_0.gemfile
             ruby: '3.1'
