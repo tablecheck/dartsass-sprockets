@@ -90,9 +90,9 @@ and the [Dart Sass documentation](https://sass-lang.com/documentation/js-api/int
 | `alert_color`*          | `Boolean`       | If `true`, Dart Sass will use ANSI color escape codes in its error and warning messages (default `false`).                    |
 | `verbose`*              | `Boolean`       | By default (`false`) Dart Sass logs up to five occurrences of each deprecation warning. Setting to `true` removes this limit. |
 | `quiet_deps`*           | `Boolean`       | If `true`, Dart Sass won’t print warnings that are caused by dependencies (default `false`).                                  |
-| `silence_deprecations`* | `Array<String>` | An array of active deprecations to ignore. Refer to (deprecations)[dartsass-deprecations].                                    |
-| `fatal_deprecations`*   | `Array<String>` | An array of deprecations to treat as fatal. Refer to (deprecations)[dartsass-deprecations].                                   |
-| `future_deprecations`*  | `Array<String>` | An array of future deprecations to opt-into early. Refer to (deprecations)[dartsass-deprecations].                            |
+| `silence_deprecations`* | `Array<String>` | An array of active deprecations to ignore. Refer to [Dart Sass deprecations][dartsass-deprecations].                          |
+| `fatal_deprecations`*   | `Array<String>` | An array of deprecations to treat as fatal. Refer to [Dart Sass deprecations][dartsass-deprecations].                         |
+| `future_deprecations`*  | `Array<String>` | An array of future deprecations to opt-into early. Refer to [Dart Sass deprecations][dartsass-deprecations].                  |
 | `importers`*            | `Array<Object>` | Custom importers to use when resolving `@import` directives.                                                                  |
 
 When changing config options in Development environment, you may need to clear
