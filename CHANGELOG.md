@@ -7,6 +7,7 @@
   - Remove config.sass.line_comments.
   - Remove Sprockets 2.x related code.
   - Add Ruby 3.4 to Github CI tests.
+  - Add Rails 8.0 to Github CI tests.
   - Silence @import deprecation in tests.
   - Fix broken tests.
 

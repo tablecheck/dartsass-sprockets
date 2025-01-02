@@ -2,5 +2,4 @@
 
 eval_gemfile('../Gemfile')
 
-gem 'rails', '~> 7.0.0'
-gem 'base64'
+gem 'rails', '~> 8.0.0'
