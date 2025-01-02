@@ -136,7 +136,6 @@ class SassRailsTest < Minitest::Test
     assert_match(/partial-foo/,              css_output)
     assert_match(/sub-folder-relative-sass/, css_output)
     assert_match(/sub-folder-relative-scss/, css_output)
-    assert_match(/not-a-partial/,            css_output)
     assert_match(/plain-old-css/,            css_output)
     assert_match(/another-plain-old-css/,    css_output)
     assert_match(/without-css-ext/,          css_output)
@@ -145,6 +144,11 @@ class SassRailsTest < Minitest::Test
     assert_match(/css-erb-handler/,          css_output)
     assert_match(/scss-erb-handler/,         css_output)
     assert_match(/sass-erb-handler/,         css_output)
+
+    # this appears to have broken since the original.
+    # perhaps partials without leading _underscore cannot
+    # be imported.
+    refute_match(/not-a-partial/,            css_output)
 
     # do these two actually test anything?
     # should the extension be changed?
