@@ -148,7 +148,7 @@ class SassRailsTest < Minitest::Test
     assert_match(/scss-erb-handler/,         css_output)
     assert_match(/sass-erb-handler/,         css_output)
 
-    # TODO: Loading a partial with a custom file extension .foo
+    # TODO: Loading a partial with a custom file extension (.foo)
     # appears to have broken since the original.
     refute_match(/partial-foo/,              css_output)
 
@@ -313,6 +313,7 @@ class SassRailsTest < Minitest::Test
       file.puts '.new-file-test { color: #000; }'
     end
 
+    Rails.application.assets.cache.clear
     new_css_output = render_asset('glob_test.css')
     assert_match(/new-file-test/, new_css_output)
     refute_equal css_output, new_css_output
@@ -337,9 +338,7 @@ class SassRailsTest < Minitest::Test
       file.puts '.changed-file-test { color: #000; }'
     end
 
-    # Must clear the cache if the file is modified
     Rails.application.assets.cache.clear
-
     new_css_output = render_asset('glob_test.css')
     assert_match(/new-file-test/, new_css_output)
     assert_match(/changed-file-test/, new_css_output)
