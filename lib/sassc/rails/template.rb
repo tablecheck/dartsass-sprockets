@@ -3,6 +3,7 @@
 require 'sprockets/version'
 require 'sprockets/sass_processor'
 require 'sprockets/utils'
+require 'sprockets/uri_utils'
 
 module SassC
   module Rails
@@ -42,7 +43,14 @@ module SassC
 
         css = engine.render
 
-        context.metadata.merge(data: css)
+        # Track all imported files
+        sass_dependencies = Set.new([input[:filename]])
+        engine.dependencies.map do |dependency|
+          sass_dependencies << dependency.options[:filename]
+          context.metadata[:dependencies] << Sprockets::URIUtils.build_file_digest_uri(dependency.options[:filename])
+        end
+
+        context.metadata.merge(data: css, sass_dependencies: sass_dependencies)
       end
 
       def config_options
