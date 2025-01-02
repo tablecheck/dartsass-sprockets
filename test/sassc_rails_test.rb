@@ -18,9 +18,6 @@ class SassRailsTest < Minitest::Test
     @app.config.sass.preferred_syntax = :scss
     @app.config.sass.load_paths = []
 
-    # Not actually a default, but it makes assertions more complicated
-    @app.config.sass.line_comments = false
-
     # Add a fake compressor for testing purposes
     Sprockets.register_compressor 'text/css', :test, TestCompressor
 
@@ -172,7 +169,7 @@ class SassRailsTest < Minitest::Test
 
     # mutate nested dependency
     path = Rails.root.join('app/assets/stylesheets/partials/subfolder/_relative_sass.sass')
-    File.open(path, "a") do |file|
+    File.open(path, 'a') do |file|
       file.puts <<~SASS
 
         .sub-folder-dependency-modified
@@ -181,7 +178,7 @@ class SassRailsTest < Minitest::Test
     end
 
     css_output = render_asset('uses_test.css')
-    assert_match(/sub-folder-dependency-modified/,   css_output)
+    assert_match(/sub-folder-dependency-modified/, css_output)
   ensure
     # unmutate
     system "git checkout #{path}"
@@ -196,15 +193,6 @@ class SassRailsTest < Minitest::Test
     @app.config.sass.style = :nested
     initialize!
     assert_equal :nested, Rails.application.config.sass.style
-  end
-
-  def test_line_comments_option_is_ignored
-    @app.config.sass.line_comments = true
-    initialize_dev!
-
-    css_output = render_asset('css_scss_handler.css')
-    refute_match %r{/* line 1}, css_output
-    refute_match %r{.+test/dummy/app/assets/stylesheets/css_scss_handler.css.scss}, css_output
   end
 
   def test_context_is_being_passed_to_erb_render

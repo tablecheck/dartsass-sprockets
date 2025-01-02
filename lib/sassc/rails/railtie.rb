@@ -15,9 +15,6 @@ module SassC
       # Initialize the load paths to an empty array
       config.sass.load_paths = []
 
-      # Display line comments above each selector as a debugging aid
-      config.sass.line_comments = true
-
       # Silence deprecation warnings during compilation that come from dependencies
       config.sass.quiet_deps = false
 
