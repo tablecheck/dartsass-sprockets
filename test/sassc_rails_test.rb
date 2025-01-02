@@ -301,6 +301,25 @@ class SassRailsTest < Minitest::Test
     CSS
   end
 
+  def test_globbed_imports_work_when_globbed_file_is_added
+    new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
+
+    initialize!
+
+    css_output = render_asset('glob_test.css')
+    refute_match(/new-file-test/, css_output)
+
+    File.open(new_file, 'w') do |file|
+      file.puts '.new-file-test { color: #000; }'
+    end
+
+    new_css_output = render_asset('glob_test.css')
+    assert_match(/new-file-test/, new_css_output)
+    refute_equal css_output, new_css_output
+  ensure
+    File.delete(new_file)
+  end
+
   def test_globbed_imports_work_when_globbed_file_is_changed
     new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
 
@@ -312,24 +331,6 @@ class SassRailsTest < Minitest::Test
 
     css_output = render_asset('glob_test.css')
     assert_match(/new-file-test/, css_output)
-
-    File.open(new_file, 'w') do |file|
-      file.puts '.changed-file-test { color: #000; }'
-    end
-
-    new_css_output = render_asset('glob_test.css')
-    assert_match(/changed-file-test/, new_css_output)
-    refute_equal css_output, new_css_output
-  ensure
-    File.delete(new_file)
-  end
-
-  def test_globbed_imports_work_when_globbed_file_is_added
-    new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
-
-    initialize!
-
-    css_output = render_asset('glob_test.css')
     refute_match(/changed-file-test/, css_output)
 
     File.open(new_file, 'w') do |file|
@@ -337,6 +338,7 @@ class SassRailsTest < Minitest::Test
     end
 
     new_css_output = render_asset('glob_test.css')
+    assert_match(/new-file-test/, css_output)
     assert_match(/changed-file-test/, new_css_output)
     refute_equal css_output, new_css_output
   ensure
