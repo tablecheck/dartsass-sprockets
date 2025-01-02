@@ -5,7 +5,10 @@
   - @botandrose - [Restore import tracking from Sprockets::SassProcessor so that edits to secondary imports are tracked](https://github.com/tablecheck/dartsass-sprockets/pull/29)
   - @jukra - [Alter the config to pass a --quiet-deps flag](https://github.com/tablecheck/dartsass-sprockets/pull/27)
   - Remove config.sass.line_comments.
+  - Remove Sprockets 2.x related code.
   - Add Ruby 3.4 to Github CI tests.
+  - Silence @import deprecation in tests.
+  - Fix broken tests.
 
 - **3.1.0**
   - Change dependency from dartsass-ruby to sassc-embedded.

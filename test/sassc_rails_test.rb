@@ -18,6 +18,10 @@ class SassRailsTest < Minitest::Test
     @app.config.sass.preferred_syntax = :scss
     @app.config.sass.load_paths = []
 
+    # TODO: Sass @import directive will be removed in the next version of
+    # Dart Sass. Tests need to be switch to @use when that happens.
+    @app.config.sass.silence_deprecations = %w[import]
+
     # Add a fake compressor for testing purposes
     Sprockets.register_compressor 'text/css', :test, TestCompressor
 
@@ -57,7 +61,6 @@ class SassRailsTest < Minitest::Test
     initialize_dev!
 
     asset = render_asset('application.css')
-
     assert_equal <<~CSS, asset
       .hello {
         color: #FFF;
@@ -133,7 +136,7 @@ class SassRailsTest < Minitest::Test
     assert_match(/top-level/,                css_output)
     assert_match(/partial-sass/,             css_output)
     assert_match(/partial-scss/,             css_output)
-    assert_match(/partial-foo/,              css_output)
+    assert_match(/not-a-partial/,            css_output)
     assert_match(/sub-folder-relative-sass/, css_output)
     assert_match(/sub-folder-relative-scss/, css_output)
     assert_match(/plain-old-css/,            css_output)
@@ -145,12 +148,11 @@ class SassRailsTest < Minitest::Test
     assert_match(/scss-erb-handler/,         css_output)
     assert_match(/sass-erb-handler/,         css_output)
 
-    # this appears to have broken since the original.
-    # perhaps partials without leading _underscore cannot
-    # be imported.
-    refute_match(/not-a-partial/,            css_output)
+    # TODO: Loading a partial with a custom file extension .foo
+    # appears to have broken since the original.
+    refute_match(/partial-foo/,              css_output)
 
-    # do these two actually test anything?
+    # Do these two actually test anything?
     # should the extension be changed?
     assert_match(/css-sass-erb-handler/,     css_output)
     assert_match(/css-scss-erb-handler/,     css_output)
@@ -161,6 +163,9 @@ class SassRailsTest < Minitest::Test
   end
 
   def test_sass_uses_work_correctly
+    path = Rails.root.join('app/assets/stylesheets/partials/subfolder/_relative_sass.sass')
+    original_data = File.read(path)
+
     app.config.sass.load_paths << Rails.root.join('app/assets/stylesheets/in_load_paths')
     initialize!
 
@@ -172,7 +177,6 @@ class SassRailsTest < Minitest::Test
     assert_match(/not-a-partial/,            css_output)
 
     # mutate nested dependency
-    path = Rails.root.join('app/assets/stylesheets/partials/subfolder/_relative_sass.sass')
     File.open(path, 'a') do |file|
       file.puts <<~SASS
 
@@ -184,13 +188,12 @@ class SassRailsTest < Minitest::Test
     css_output = render_asset('uses_test.css')
     assert_match(/sub-folder-dependency-modified/, css_output)
   ensure
-    # unmutate
-    system "git checkout #{path}"
+    File.write(path, original_data)
   end
 
-  def test_style_config_item_is_defaulted_to_expanded_in_development_mode
+  def test_style_config_item_is_defaulted_to_nil_in_development_mode
     initialize_dev!
-    assert_equal :expanded, Rails.application.config.sass.style
+    assert_nil Rails.application.config.sass.style
   end
 
   def test_style_config_item_is_honored
@@ -233,7 +236,7 @@ class SassRailsTest < Minitest::Test
     assert_equal :sass, Rails.application.config.assets.css_compressor
   end
 
-  def test_compression_works
+  def test_compression_works_for_scss_in_prod_mode
     initialize_prod!
 
     asset = render_asset('application.css')
@@ -242,14 +245,42 @@ class SassRailsTest < Minitest::Test
     CSS
   end
 
-  def test_sassc_compression_is_used
-    engine = stub(render: '')
-    SassC::Engine.expects(:new).returns(engine)
-    SassC::Engine.expects(:new).with('', { style: :compressed }).returns(engine)
-
+  def test_compression_works_for_css_in_prod_mode
     initialize_prod!
 
+    asset = render_asset('plain_css.css')
+    assert_equal <<~CSS, asset
+      .goodbye{color:#fff}
+    CSS
+  end
+
+  def test_compression_disabled_for_css_in_dev_mode
+    initialize_dev!
+
+    asset = render_asset('plain_css.css')
+    assert_equal <<~CSS, asset
+      .goodbye {
+        color: #FFF;
+      }
+    CSS
+  end
+
+  def test_scss_compression_is_used_in_prod_mode
+    engine1 = stub(render: 'foo', dependencies: [])
+    engine2 = stub(render: 'bar')
+    SassC::Engine.expects(:new).once.returns(engine1)
+    SassC::Engine.expects(:new).once.with("foo\n", { style: :compressed }).returns(engine2)
+
+    initialize_prod!
     render_asset('application.css')
+  end
+
+  def test_css_compression_is_used_in_prod_mode
+    engine = stub(render: '')
+    SassC::Engine.expects(:new).once.with(".goodbye {\n  color: #FFF;\n}\n", { style: :compressed }).returns(engine)
+
+    initialize_prod!
+    render_asset('plain_css.css')
   end
 
   def test_allows_for_inclusion_of_inline_source_maps
@@ -261,77 +292,45 @@ class SassRailsTest < Minitest::Test
     assert_match(/sourceMappingURL/, asset)
   end
 
-  # test 'sprockets require works correctly' do
-  #  skip
-
-  #  within_rails_app('scss_project') do |app_root|
-  #    css_output = asset_output('css_application.css')
-  #    assert_match /globbed/, css_output
-
-  #    if File.exist?("#{app_root}/log/development.log")
-  #      log_file = "#{app_root}/log/development.log"
-  #    elsif File.exist?("#{app_root}/log/test.log")
-  #      log_file = "#{app_root}/log/test.log"
-  #    else
-  #      flunk "log file was not created"
-  #    end
-
-  #    log_output = File.open(log_file).read
-  #    refute_match /Warning/, log_output
-  #  end
-  # end
-
-  # test 'sprockets directives are ignored within an import' do
-  #  skip
-
-  #  css_output = sprockets_render('scss_project', 'import_css_application.css')
-  #  assert_match /\.css-application/,        css_output
-  #  assert_match /\.import-css-application/, css_output
-  # end
-
   def test_globbed_imports_work_with_multiple_extensions
     initialize!
 
     asset = render_asset('glob_multiple_extensions_test.css')
-
     assert_equal <<~CSS, asset
       .glob{margin:0}
     CSS
   end
 
   def test_globbed_imports_work_when_globbed_file_is_changed
-    skip 'This seems to work in practice, possible test setup problem'
+    new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
 
-    begin
-      initialize!
+    initialize!
 
-      new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
-
-      File.open(new_file, 'w') do |file|
-        file.puts '.new-file-test { color: #000; }'
-      end
-
-      css_output = render_asset('glob_test.css')
-      assert_match(/new-file-test/, css_output)
-
-      File.open(new_file, 'w') do |file|
-        file.puts '.changed-file-test { color: #000; }'
-      end
-
-      new_css_output = render_asset('glob_test.css')
-      assert_match(/changed-file-test/, new_css_output)
-      refute_equal css_output, new_css_output
-    ensure
-      File.delete(new_file)
+    File.open(new_file, 'w') do |file|
+      file.puts '.new-file-test { color: #000; }'
     end
+
+    css_output = render_asset('glob_test.css')
+    assert_match(/new-file-test/, css_output)
+
+    File.open(new_file, 'w') do |file|
+      file.puts '.changed-file-test { color: #000; }'
+    end
+
+    new_css_output = render_asset('glob_test.css')
+    assert_match(/changed-file-test/, new_css_output)
+    refute_equal css_output, new_css_output
+  ensure
+    File.delete(new_file)
   end
 
   def test_globbed_imports_work_when_globbed_file_is_added
+    new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
+
     initialize!
 
     css_output = render_asset('glob_test.css')
     refute_match(/changed-file-test/, css_output)
-    new_file = File.join(File.dirname(__FILE__), 'dummy', 'app', 'assets', 'stylesheets', 'globbed', 'new_glob.scss')
 
     File.open(new_file, 'w') do |file|
       file.puts '.changed-file-test { color: #000; }'
@@ -345,6 +344,7 @@ class SassRailsTest < Minitest::Test
   end
 
   class TestCompressor
-    def self.call(*); end
+    def self.call(*)
+    end
   end
 end

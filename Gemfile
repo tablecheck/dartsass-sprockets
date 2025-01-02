@@ -2,12 +2,12 @@
 
 source 'https://rubygems.org'
 
+gem 'rake'
+gem 'rubocop'
+gem 'mocha'
+
 platforms :windows do
   gem 'tzinfo-data'
 end
-
-gem 'mocha'
-gem 'rake'
-gem 'rubocop'
 
 gemspec

@@ -72,10 +72,10 @@ module SassC
       end
 
       initializer :setup_compression, group: :all do |app|
-        if ::Rails.env.development?
-          # Use expanded output instead of the sass default of :nested unless specified
-          app.config.sass.style ||= :expanded
-        else
+        unless ::Rails.env.development?
+          # TODO: Change this in version 4
+          # app.config.sass.style = :compressed unless app.config.sass.key?(:style)
+          # app.config.assets.css_compressor = :scss unless app.config.assets.key?(:css_compressor)
           app.config.assets.css_compressor = :sass unless app.config.assets.key?(:css_compressor)
         end
       end
