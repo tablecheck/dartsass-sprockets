@@ -45,11 +45,11 @@ jobs:
           - os: windows-latest
             ruby: truffleruby
           - gemfile: gemfiles/rails_6_1.gemfile
-            ruby: 3.4
+            ruby: '3.4'
           - gemfile: gemfiles/rails_7_0.gemfile
-            ruby: 3.4
+            ruby: '3.4'
           - gemfile: gemfiles/rails_8_0.gemfile
-            ruby: 3.1
+            ruby: '3.1'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
