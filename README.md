@@ -83,7 +83,7 @@ and the [Dart Sass documentation](https://sass-lang.com/documentation/js-api/int
 |-------------------------|-----------------|-------------------------------------------------------------------------------------------------------------------------------|
 | `load_paths`            | `Array<String>` | Additional paths to look for imported files.                                                                                  |
 | `inline_source_maps`    | `Boolean`       | If `true`, will append source maps inline to the generated CSS file. Refer to section below.                                  |
-| `style`*                | `Symbol`        | `:expanded` (default) or `:compressed`. See note about CSS Minification below.                                                |
+| `style`*                | `Symbol`        | `:expanded` (default) or `:compressed`. Overridden by `Rails.config.assets.css_compressor`; see "CSS Minification" above.     |
 | `charset`*              | `Boolean`       | Whether to include a @charset declaration or byte-order mark in the CSS output (default `true`).                              |
 | `logger`*               | `Object`        | An object to use to handle warnings and/or debug messages from Sass.                                                          |
 | `alert_ascii`*          | `Boolean`       | If `true`, Dart Sass will exclusively use ASCII characters in its error and warning messages (default `false`).               |
