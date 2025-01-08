@@ -130,4 +130,4 @@ Note the following differences:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
-[dartsass-deprecations]: https://github.com/sass/sass/blob/40c50cb/js-api-doc/deprecations.d.ts#L260
+[dartsass-deprecations]: https://sass-lang.com/documentation/js-api/interfaces/deprecations/
