@@ -1,4 +1,4 @@
-# Dart Sass for Spockets
+# Dart Sass for Sprockets
 
 [![build](https://github.com/tablecheck/dartsass-sprockets/actions/workflows/build.yml/badge.svg)](https://github.com/tablecheck/dartsass-sprockets/actions/workflows/build.yml)
 [![gem](https://badge.fury.io/rb/dartsass-sprockets.svg)](https://rubygems.org/gems/dartsass-sprockets)
