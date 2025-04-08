@@ -13,8 +13,9 @@ module Sprockets
         style: :compressed
       }.merge(options).freeze
 
-      sassc_embedded_version = SassC::Embedded::VERSION if defined?(SassC::Embedded::VERSION)
-      @cache_key = "#{self.class.name}:#{SassC::Rails::VERSION}:#{sassc_embedded_version}:#{Sprockets::DigestUtils.digest(options)}".freeze
+      ver1 = SassC::Rails::VERSION
+      ver2 = SassC::Embedded::VERSION if defined?(SassC::Embedded::VERSION)
+      @cache_key = "#{self.class.name}:#{ver1}:#{ver2}:#{Sprockets::DigestUtils.digest(options)}".freeze
     end
 
     def call(*args)
