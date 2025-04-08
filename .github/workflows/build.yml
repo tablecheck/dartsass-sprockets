@@ -7,13 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ruby
           bundler-cache: true
-          bundler: 2
       - name: Rubocop
         run: bundle exec rubocop
 
@@ -64,7 +63,7 @@ jobs:
             ruby: truffleruby
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         env:
@@ -72,7 +71,6 @@ jobs:
         with:
           ruby-version: ${{matrix.ruby}}
           bundler-cache: true
-          bundler: 2
       - name: Test
         run: bundle exec rake test
         env:
@@ -92,9 +90,9 @@ jobs:
           - test/gemfiles/rails_7_0_dartsass.gemfile
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: twbs/bootstrap-rubygem
           path: vendor/bootstrap
@@ -103,7 +101,6 @@ jobs:
         with:
           ruby-version: ${{matrix.ruby}}
           bundler-cache: true
-          bundler: 2
       - name: Test
         run: |
           gem build dartsass-sprockets.gemspec

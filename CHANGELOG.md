@@ -1,3 +1,6 @@
+- **3.2.1**
+  - Compressor should use stable cache_key to greatly increase CI performance.
+
 - **3.2.0**
   - Bump sassc-embedded dependency to 1.80.1.
   - Allow pass-thru of all sass-embedded options.
