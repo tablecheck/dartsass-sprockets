@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+require_relative 'test_helper'
+
+class CompressorTest < Minitest::Test
+  attr_reader :compressor
+
+  def setup
+    @compressor = Sprockets::SassCompressor.new
+  end
+
+  def test_cache_key
+    bytes = [
+      0xA9, 0x10, 0x69, 0x14, 0x7F, 0x9B, 0xD9, 0x24, 0x5C, 0xDA, 0xCA, 0xEF, 0x8E, 0xAD, 0x4C, 0x35,
+      0x78, 0xED, 0x44, 0xF1, 0x79, 0xD7, 0xEB, 0x6B, 0xD4, 0x69, 0x0E, 0x62, 0xBA, 0x46, 0x58, 0xF2
+    ]
+    assert_equal(
+      "Sprockets::SassCompressor:#{SassC::Rails::VERSION}:#{SassC::Embedded::VERSION}:#{bytes.pack('C*')}",
+      compressor.instance_variable_get(:@cache_key)
+    )
+  end
+end

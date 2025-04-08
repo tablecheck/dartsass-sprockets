@@ -13,4 +13,4 @@ require 'mocha/minitest'
 
 Bundler.require
 
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require(f) }

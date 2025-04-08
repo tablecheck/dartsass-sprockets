@@ -12,7 +12,9 @@ module Sprockets
         read_cache: false,
         style: :compressed
       }.merge(options).freeze
-      @cache_key = SecureRandom.uuid
+
+      sassc_embedded_version = SassC::Embedded::VERSION if defined?(SassC::Embedded::VERSION)
+      @cache_key = "#{self.class.name}:#{SassC::Rails::VERSION}:#{sassc_embedded_version}:#{Sprockets::DigestUtils.digest(options)}".freeze
     end
 
     def call(*args)
